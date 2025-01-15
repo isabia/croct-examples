@@ -326,7 +326,7 @@
       "slots": ["{{ /output/slot-id }}"]
     },
     {
-      "name": "download-source",
+      "name": "download",
       "source": "./{{ /project/platform }}/page.{{ /output/component-extensions/0 }}",
       "destination": "{{ /input/example-path }}",
       "output": {
