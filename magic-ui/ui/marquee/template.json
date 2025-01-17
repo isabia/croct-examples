@@ -327,8 +327,7 @@
     },
     {
       "name": "download",
-      "source": "./{{ /project/platform }}",
-      "filter": "*.{jsx,tsx}",
+      "source": "./{{ /project/platform }}/page.{{ /output/component-extensions/0 }}",
       "destination": "{{ /input/example-path }}",
       "output": {
         "destination": "/output/example-path"
