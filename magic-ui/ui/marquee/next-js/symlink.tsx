@@ -1,1 +1,1 @@
-page.tsx
+/Users/marcospassos/WebstormProjects/croct-examples/magic-ui/ui/marquee/next-js/page.tsx
