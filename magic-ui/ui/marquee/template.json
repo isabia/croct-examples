@@ -328,6 +328,7 @@
     {
       "name": "download",
       "source": "./{{ /project/platform }}",
+      "filter": "*.{jsx,tsx}",
       "destination": "{{ /input/example-path }}",
       "output": {
         "destination": "/output/example-path"
