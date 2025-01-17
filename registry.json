@@ -1,10 +1,10 @@
 [
   {
     "pattern": "^croct:\/(.+?)$",
-    "template": "github:/marcospassos/croct-examples/$1"
+    "destination": "github:/marcospassos/croct-examples/$1"
   },
   {
     "pattern": "^https:\/\/magicui.design\/r\/(.+?)$",
-    "template": "github:/marcospassos/croct-examples/magic-ui/ui/$1"
+    "destination": "github:/marcospassos/croct-examples/magic-ui/ui/$1"
   }
 ]
