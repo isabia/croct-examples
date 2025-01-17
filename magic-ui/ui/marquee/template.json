@@ -327,7 +327,7 @@
     },
     {
       "name": "download",
-      "source": "./{{ /project/platform }}/page.{{ /output/component-extensions/0 }}",
+      "source": "./{{ /project/platform }}",
       "destination": "{{ /input/example-path }}",
       "output": {
         "destination": "/output/example-path"
