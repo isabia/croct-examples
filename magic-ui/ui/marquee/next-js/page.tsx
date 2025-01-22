@@ -2,7 +2,7 @@ import Marquee from "@/components/ui/marquee";
 import {fetchContent} from "@croct/plug-next/server";
 
 export default async function Home() {
-    const {content: {reviews, ...props}} = await fetchContent('%slot-id%');
+    const {content: {reviews, ...props}} = await fetchContent('%slotId%');
 
     return (
         <Marquee {...props}>
