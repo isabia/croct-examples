@@ -13,7 +13,7 @@
       "name": "try",
       "action": {
         "name": "locate-file",
-        "path": "../**/marquee.{jsx,tsx}",
+        "path": "**/marquee.{jsx,tsx}",
         "max": 1,
         "matcher": {
           "pattern": "export default function Marquee"
@@ -328,7 +328,7 @@
     },
     {
       "name": "download",
-      "source": "./${project.platform}/page.${output.componentExtensions[0]}",
+      "source": "../${project.platform}/page.${output.componentExtensions[0]}",
       "destination": "${input.examplePath}",
       "output": {
         "destination": "examplePath"
