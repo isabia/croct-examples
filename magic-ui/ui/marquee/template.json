@@ -4,6 +4,7 @@
   "options": {
     "examplePath": {
       "type": "string",
+      "description": "The path to the example file.",
       "default": "${project.path.example}/marquee"
     }
   },
