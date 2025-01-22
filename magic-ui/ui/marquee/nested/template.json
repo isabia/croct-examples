@@ -1,0 +1,364 @@
+{
+  "title": "Magic UI Marquee",
+  "description": "Import the Marquee example into the project.",
+  "options": {
+    "examplePath": {
+      "type": "string",
+      "description": "The path to the example file.",
+      "default": "${project.path.example}/marquee"
+    }
+  },
+  "actions": [
+    {
+      "name": "try",
+      "action": {
+        "name": "locate-file",
+        "path": "../**/marquee.{jsx,tsx}",
+        "max": 1,
+        "matcher": {
+          "pattern": "export default function Marquee"
+        },
+        "output": {
+          "path": "componentPaths",
+          "extension": "componentExtensions"
+        }
+      },
+      "help": {
+        "message": "Unable to locate the `<Marquee>` component.",
+        "suggestions": [
+          "Run the command `npx shadcn@latest add \"Marquee\"` to add the component",
+          "Do not rename or refactor the component yet",
+          "Try again"
+        ]
+      }
+    },
+    {
+      "name": "create-resource",
+      "resources": {
+        "components": {
+          "magic-ui-marquee-reviews": {
+            "name": "Magic UI - Marquee Reviews",
+            "description": "An infinite scrolling component that displays user reviews.",
+            "definition": {
+              "type": "structure",
+              "title": "Magic UI - Marquee Reviews",
+              "attributes": {
+                "repeat": {
+                  "type": {
+                    "type": "number",
+                    "integer": true,
+                    "minimum": 1
+                  },
+                  "label": "Repetition",
+                  "private": false,
+                  "optional": true,
+                  "position": 4,
+                  "description": "Number of times to repeat the content."
+                },
+                "reverse": {
+                  "type": {
+                    "type": "boolean",
+                    "label": {
+                      "true": "Yes",
+                      "false": "No"
+                    },
+                    "default": false
+                  },
+                  "label": "Reverse animation?",
+                  "private": false,
+                  "optional": false,
+                  "position": 1,
+                  "description": "Whether or not to reverse the direction of the marquee."
+                },
+                "reviews": {
+                  "type": {
+                    "type": "list",
+                    "items": {
+                      "type": "structure",
+                      "attributes": {
+                        "name": {
+                          "type": {
+                            "type": "text",
+                            "minimumLength": 1
+                          },
+                          "label": "Name",
+                          "private": false,
+                          "optional": false,
+                          "position": 0,
+                          "description": "The name of the author."
+                        },
+                        "avatar": {
+                          "type": {
+                            "id": "@croct/file",
+                            "type": "reference"
+                          },
+                          "label": "Avatar",
+                          "private": false,
+                          "optional": false,
+                          "position": 2,
+                          "description": "The URL of the author avatar."
+                        },
+                        "content": {
+                          "type": {
+                            "type": "text",
+                            "format": "multiline",
+                            "minimumLength": 1
+                          },
+                          "label": "Content",
+                          "private": false,
+                          "optional": false,
+                          "position": 3,
+                          "description": "The content of the review."
+                        },
+                        "username": {
+                          "type": {
+                            "type": "text",
+                            "minimumLength": 1
+                          },
+                          "label": "Username",
+                          "private": false,
+                          "optional": false,
+                          "position": 1,
+                          "description": "The username of the author."
+                        }
+                      }
+                    },
+                    "itemLabel": "Review"
+                  },
+                  "label": "Reviews",
+                  "private": false,
+                  "optional": false,
+                  "position": 5,
+                  "description": "The list of reviews."
+                },
+                "vertical": {
+                  "type": {
+                    "type": "boolean",
+                    "label": {
+                      "true": "Yes",
+                      "false": "No"
+                    },
+                    "default": false
+                  },
+                  "label": "Vertical?",
+                  "private": false,
+                  "optional": false,
+                  "position": 3,
+                  "description": "Whether to animate vertically instead of horizontally."
+                },
+                "className": {
+                  "type": {
+                    "type": "text",
+                    "minimumLength": 1
+                  },
+                  "label": "Class name",
+                  "private": false,
+                  "optional": true,
+                  "position": 0,
+                  "description": "Optional CSS class name to apply custom styles"
+                },
+                "pauseOnHover": {
+                  "type": {
+                    "type": "boolean",
+                    "label": {
+                      "true": "Yes",
+                      "false": "No"
+                    },
+                    "default": false
+                  },
+                  "label": "Pause on hover?",
+                  "private": false,
+                  "optional": false,
+                  "position": 2,
+                  "description": "Whether to pause the animation on hover."
+                }
+              },
+              "description": "An infinite scrolling component that displays user reviews."
+            }
+          }
+        },
+        "slots": {
+          "magic-ui-user-reviews": {
+            "name": "Magic UI - User reviews",
+            "component": "magic-ui-marquee-reviews",
+            "content": {
+              "en": {
+                "type": "structure",
+                "attributes": {
+                  "reverse": {
+                    "type": "boolean",
+                    "value": {
+                      "type": "static",
+                      "value": false
+                    }
+                  },
+                  "reviews": {
+                    "type": "list",
+                    "items": [
+                      {
+                        "type": "structure",
+                        "attributes": {
+                          "name": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "Jack"
+                            }
+                          },
+                          "avatar": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "https://avatar.vercel.sh/jack"
+                            }
+                          },
+                          "content": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "I've never seen anything like this before. It's amazing. I love it."
+                            }
+                          },
+                          "username": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "@jack"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "structure",
+                        "attributes": {
+                          "name": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "Jill"
+                            }
+                          },
+                          "avatar": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "https://avatar.vercel.sh/jill"
+                            }
+                          },
+                          "content": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "I don't know what to say. I'm speechless. This is amazing."
+                            }
+                          },
+                          "username": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "@jill"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "structure",
+                        "attributes": {
+                          "name": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "John"
+                            }
+                          },
+                          "avatar": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "https://avatar.vercel.sh/john"
+                            }
+                          },
+                          "content": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "I'm at a loss for words. This is amazing. I love it."
+                            }
+                          },
+                          "username": {
+                            "type": "text",
+                            "value": {
+                              "type": "static",
+                              "value": "@john"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "vertical": {
+                    "type": "boolean",
+                    "value": {
+                      "type": "static",
+                      "value": false
+                    }
+                  },
+                  "pauseOnHover": {
+                    "type": "boolean",
+                    "value": {
+                      "type": "static",
+                      "value": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "output": {
+        "slots": {
+          "magic-ui-user-reviews": "slotId"
+        }
+      }
+    },
+    {
+      "name": "add-slot",
+      "slots": ["${output.slotId}"]
+    },
+    {
+      "name": "download",
+      "source": "./${project.platform}/page.${output.componentExtensions[0]}",
+      "destination": "${input.examplePath}",
+      "output": {
+        "destination": "examplePath"
+      }
+    },
+    {
+      "name": "resolve-import",
+      "target": "${output.componentPaths[0]}",
+      "source": "${project.path.example}",
+      "output": {
+        "importPath": "importPath"
+      }
+    },
+    {
+      "name": "replace-file-content",
+      "files": [
+        {
+          "path": "${output.examplePath}/page.${output.componentExtensions[0]}",
+          "replacements": [
+            {
+              "pattern": "(?<=from )\"@/components/ui/marquee\"",
+              "value": "\"${output.importPath}\""
+            },
+            {
+              "pattern": "%slotId%",
+              "value": "${output.slotId}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
