@@ -350,11 +350,11 @@
           "replacements": [
             {
               "pattern": "(?<=from )\"@/components/ui/marquee\"",
-              "replacement": "\"${output.importPath}\""
+              "value": "\"${output.importPath}\""
             },
             {
               "pattern": "%slotId%",
-              "replacement": "${output.slotId}"
+              "value": "${output.slotId}"
             }
           ]
         }
