@@ -1,10 +1,98 @@
 {
   "title": "Magic UI Marquee",
   "description": "Import the Marquee example into the project.",
+  "options": {
+    "examplePath": {
+      "type": "string",
+      "description": "The path to the example file.",
+      "default": "${project.path.example}/marquee"
+    }
+  },
   "actions": [
     {
-      "name": "import",
-      "template": "./nested/template.json"
+      "name": "try",
+      "action": {
+        "name": "locate-file",
+        "path": "**/marquee.{jsx,tsx}",
+        "max": 1,
+        "matcher": {
+          "pattern": "export default function Marquee"
+        },
+        "output": {
+          "path": "componentPaths",
+          "extension": "componentExtensions"
+        }
+      },
+      "help": {
+        "message": "Unable to locate the `<Marquee>` component.",
+        "suggestions": [
+          "Run the command `npx shadcn@latest add \"Marquee\"` to add the component",
+          "Do not rename or refactor the component yet",
+          "Try again"
+        ]
+      }
+    },
+    {
+      "name": "create-resource",
+      "resources": {
+        "components": {
+          "magic-ui-marquee-reviews": "${ import('file:///component.json') }"
+        },
+        "slots": {
+          "magic-ui-user-reviews": {
+            "name": "Magic UI - User reviews",
+            "component": "magic-ui-marquee-reviews",
+            "content": {
+              "en": "${ import('./default-content.en.json') }"
+            }
+          }
+        }
+      },
+      "output": {
+        "slots": {
+          "magic-ui-user-reviews": "slotId"
+        }
+      }
+    },
+    {
+      "name": "add-slot",
+      "slots": [
+        "${output.slotId}"
+      ]
+    },
+    {
+      "name": "download",
+      "source": "${project.platform}/page.${output.componentExtensions[0]}",
+      "destination": "${input.examplePath}",
+      "output": {
+        "destination": "examplePath"
+      }
+    },
+    {
+      "name": "resolve-import",
+      "target": "${output.componentPaths[0]}",
+      "source": "${project.path.example}",
+      "output": {
+        "importPath": "importPath"
+      }
+    },
+    {
+      "name": "replace-file-content",
+      "files": [
+        {
+          "path": "${output.examplePath}/page.${output.componentExtensions[0]}",
+          "replacements": [
+            {
+              "pattern": "(?<=from )\"@/components/ui/marquee\"",
+              "value": "\"${output.importPath}\""
+            },
+            {
+              "pattern": "%slotId%",
+              "value": "${output.slotId}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
