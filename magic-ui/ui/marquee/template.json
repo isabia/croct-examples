@@ -36,14 +36,14 @@
       "name": "create-resource",
       "resources": {
         "components": {
-          "magic-ui-marquee-reviews": "${ import('file:///component.json') }"
+          "magic-ui-marquee-reviews": "${ import('component.json') }"
         },
         "slots": {
           "magic-ui-user-reviews": {
             "name": "Magic UI - User reviews",
             "component": "magic-ui-marquee-reviews",
             "content": {
-              "en": "${ import('./default-content.en.json') }"
+              "en": "${ import('default-content.en.json') }"
             }
           }
         }
