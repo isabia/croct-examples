@@ -10,20 +10,23 @@
   },
   "actions": [
     {
-      "name": "try",
-      "action": {
-        "name": "locate-file",
-        "path": "**/marquee.{jsx,tsx}",
-        "max": 1,
-        "matcher": {
-          "pattern": "export default function Marquee"
-        },
-        "output": {
-          "path": "componentPaths",
-          "extension": "componentExtensions"
-        }
+      "name": "locate-file",
+      "path": "**/marquee.{jsx,tsx}",
+      "max": 1,
+      "matcher": {
+        "pattern": "export default function Marquee"
       },
-      "help": {
+      "output": {
+        "paths": "componentPaths",
+        "extensions": "componentExtensions"
+      }
+    },
+    {
+      "name": "test",
+      "condition": "${output.componentPaths.length === 0}",
+      "then": {
+        "name": "fail",
+        "title": "Component not found",
         "message": "Unable to locate the `<Marquee>` component.",
         "suggestions": [
           "Run the command `npx shadcn@latest add \"Marquee\"` to add the component",
@@ -93,6 +96,17 @@
           ]
         }
       ]
+    },
+    {
+      "name": "format-code",
+      "files": [
+        "${output.examplePath}/page.${output.componentExtensions[0]}"
+      ]
+    },
+    {
+      "name": "log",
+      "semantic": "success",
+      "message": "Check the example file at `${output.examplePath}`."
     }
   ]
 }
