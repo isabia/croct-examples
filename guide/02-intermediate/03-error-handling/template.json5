@@ -1,0 +1,58 @@
+{
+  "title": "Error handling",
+  "description": "Learn how to manage errors and define fallback actions.",
+  "actions": [
+    /*
+        You can use a try-catch-like structure to handle errors.
+        If an action fails, you can define an alternative path (else) or display help messages.
+     */
+
+    // 1. This action executes successfully
+    {
+      "name": "try",
+      "action": {
+        "name": "print",
+        "semantic": "success",
+        "message": "This action executed successfully."
+      }
+    },
+
+    // 2. This action will fail, but execution continues via the 'else' branch
+    {
+      "name": "try",
+      "action": {
+        "name": "fail",
+        "title": "Error",
+        "message": "An error occurred while executing this action."
+      },
+      "else": {
+        "name": "print",
+        "semantic": "warning",
+        "message": "The action failed, but this fallback message is shown."
+      }
+    },
+
+    // 3. This action will fail and stop execution, displaying a help message
+    {
+      "name": "try",
+      "action": {
+        "name": "fail",
+        "title": "Error",
+        "message": "An error occurred while executing this action."
+      },
+      "help": {
+        "message": "This is the help message providing guidance.",
+        "suggestions": [
+          "Check the logs for details.",
+          "Review the documentation."
+        ]
+      }
+    },
+
+    // 4. his message will never be printed because the previous action stops execution
+    {
+      "name": "log",
+      "message": "This message will never appear."
+    }
+  ]
+}

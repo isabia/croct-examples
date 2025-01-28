@@ -1,0 +1,19 @@
+{
+  "title": "Accessing project details",
+  "description": "Learn how to access project information.",
+  "actions": [
+    {
+      "name": "print",
+      "semantic": "success",
+      "title": "Project information",
+      /*
+          The `project` variable provides access to project-related details.
+          Available properties include `organization`, `workspace`, and `platform`.
+
+          Some properties, like `organization` and `workspace`, require the project to be initialized.
+          If the project is not initialized, the action may pause execution until initialization completes.
+      */
+      "message": "Platform: ${project.platform}"
+    }
+  ]
+}

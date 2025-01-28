@@ -1,0 +1,14 @@
+{
+  // Templates can be written in JSON5 with allow a few extra features like comments and trailing commas.
+  // Read more about JSON5 at https://json5.org/
+  "title": "Console output",
+  "description": "Learn how to print a message to the console.",
+  "actions": [
+    {
+      "name": "print", // The action name
+      "semantic": "success", // The style of the message, can be neutral, info, error, warning, or success
+      "title": "Example",
+      "message": "You can use basic markdown in your messages, like **bold**, _italic_ and `highlighted` text."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Template composition",
+  "description": "Learn how to split templates into multiple files for better organization.",
+  "actions": [
+    /*
+     * You can import actions, schemas, or other JSON file using the syntax below.
+     *
+     * - The second argument in the import is a map of variables you want to pass to the imported file.
+     * - These variables can be accessed in the imported file as `this.variableName`.
+     * - Any variable defined in the original file is also accessible in the imported file.
+     */
+    {
+      "name": "create-resource",
+      "resources": {
+        "audiences": {
+          "returning-users": "${import('returning-audience.json', {name: 'Returning users'})}"
+        }
+      },
+    },
+  ]
+}

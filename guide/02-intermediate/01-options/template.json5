@@ -1,0 +1,24 @@
+{
+  "title": "Template options",
+  "description": "Learn how to define user-provided options for a template.",
+  "options": {
+    /*
+        Options allow users to customize the template when executing the command.
+        For example, users can run `import template <path> --name John` to set the `name` option.
+        Running `import template <path> --help` displays available options and their descriptions.
+     */
+    "name": {
+      "type": "string",
+      "description": "User-provided name for the greeting message.",
+      "required": true // Ensures this option is mandatory
+    }
+  },
+  "actions": [
+    {
+      "name": "print",
+      "semantic": "success",
+      // The option value is accessed using `options.<option_name>`
+      "message": "Hello, ${options.name}!"
+    }
+  ]
+}

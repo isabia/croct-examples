@@ -1,0 +1,4 @@
+{
+  "name": "${this.name}",
+  "criteria": "user is returning"
+}

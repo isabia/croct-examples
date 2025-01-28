@@ -1,0 +1,41 @@
+{
+  "title": "File download",
+  "description": "Learn how to download files from public URLs, GitHub repositories, or local paths.",
+  "actions": [
+    /*
+        The download action allows retrieving files dynamically. This is useful for fetching assets,
+        code snippets, or configuration files during template execution.
+
+        Supported sources include:
+         - Public URLs (e.g., HTTP/HTTPS links)
+         - GitHub repositories using a special protocol
+         - Local paths relative to the template
+
+        GitHub repository URLs can be specified in two formats:
+         - Web interface URL: https://github.com/<username>/<repo>/<blob|tree>/<ref>/path/to/file-or-folder
+         - Short GitHub URL: github:///<username>/<repo>/path/to/file-or-folder
+     */
+
+    // Download a specific file from a GitHub repository
+    {
+      "name": "download",
+      "source": "github:///croct-tech/plug-next/LICENSE",
+      "destination": "./" // Saves the file in the project root
+    },
+
+    // Download files with a specific extension from a GitHub repository
+    {
+      "name": "download",
+      "source": "github:///croct-tech/plug-next",
+      "filter": "*.md", // You can use glob patterns to filter files
+      "destination": "./" // Saves the file in the project root
+    },
+
+    // Download a file relative to the template file
+    {
+      "name": "download",
+      "source": "./logo.png", // Refers to a file inside the template directory
+      "destination": "./assets" // Saves it in the /assets folder
+    }
+  ]
+}

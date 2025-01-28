@@ -1,0 +1,19 @@
+{
+  "title": "Variables",
+  "description": "Learn how set variables and use them in your actions.",
+  "actions": [
+    {
+      "name": "define",
+      "variables": {
+        "meaning": 42, // All variables defined by actions are accessible through the `this` variable
+      }
+    },
+    {
+      "name": "print",
+      "semantic": "success",
+      "title": "The meaning of life",
+      // Use `${}` to insert variable values dynamically
+      "message": "According to Douglas Adams, the meaning of life is ${this.meaning}."
+    },
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "title": "Component template",
+  "description": "A reusable template for importing components.",
+  "options": {
+    "id": {
+      "type": "string",
+      "description": "The component ID.",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "description": "The URL of the component.",
+      "required": true
+    },
+    "component": {
+      "type": "string",
+      "description": "The component name.",
+      "required": true
+    },
+    "slotRef": {
+      "type": "string",
+      "description": "The variable name that holds the slot slug.",
+      "required": true
+    },
+    "action": {
+      "type": "object",
+      "description": "Additional actions to execute.",
+      "required": false
+    }
+  },
+  "actions": [
+    {
+      "name": "define",
+      "variables": {
+        "examplePath": "${project.path.example}/${options.id}"
+      }
+    },
+    {
+      "name": "print",
+      "message": "${this.examplePath}"
+    },
+    {
+      "name": "locate-file",
+      "path": "**/${options.id}.{jsx,tsx}",
+      "max": 1,
+      "matcher": {
+        "pattern": "export default function ${options.component}"
+      },
+      "result": {
+        "paths": "componentPaths",
+        "extensions": "componentExtensions"
+      }
+    },
+    {
+      "name": "test",
+      "condition": "${this.componentPaths.length === 0}",
+      "then": {
+        "name": "fail",
+        "title": "Component not found",
+        "message": "Unable to locate the `<${options.component}>` component.",
+        "suggestions": [
+          "Run the command `npx shadcn@latest add \"${options.url}\"` to add the component",
+          "Do not rename or refactor the component yet",
+          "Try again"
+        ]
+      }
+    },
+    "${options.action}",
+    {
+      "name": "download",
+      "source": "../ui/${options.id}/${project.platform}/page.${this.componentExtensions[0]}",
+      "destination": "${this.examplePath}",
+      "result": {
+        "destination": "examplePath"
+      }
+    },
+    {
+      "name": "resolve-import",
+      "target": "${this.componentPaths[0]}",
+      "source": "${project.path.example}",
+      "result": {
+        "importPath": "importPath"
+      }
+    },
+    {
+      "name": "replace-file-content",
+      "files": [
+        {
+          "path": "${this.examplePath}/page.${this.componentExtensions[0]}",
+          "replacements": [
+            {
+              "pattern": "(?<=from )\"@/components/ui/${options.id}\"",
+              "value": "\"${this.importPath}\""
+            },
+            {
+              "pattern": "%slotId%",
+              "value": "${this[options.slotRef]}"
+            },
+            {
+              "pattern": "%workspaceUrl%",
+              "value": "${project.workspace.url}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format-code",
+      "files": [
+        "${this.examplePath}/page.${this.componentExtensions[0]}"
+      ]
+    },
+    {
+      "name": "print",
+      "semantic": "success",
+      "message": "Component successfully imported at `${this.examplePath}`."
+    },
+    {
+      "name": "prompt",
+      "type": "confirmation",
+      "message": "Open the example in the browser?",
+      "default": false,
+      "result": "openExample"
+    },
+    {
+      "name": "test",
+      "condition": "${this.openExample}",
+      "then": [
+        {
+          "name": "start-server",
+          "result": {
+            "url": "serverUrl",
+            "initiator": "serverInitiator"
+          }
+        },
+        {
+          "name": "open-link",
+          "url": "${this.serverUrl}${options.id}"
+        },
+        {
+          "name": "print",
+          "semantic": "info",
+          "message": "The example is available at `${this.serverUrl}${options.id}`."
+        },
+        {
+          "name": "test",
+          "condition": "${this.serverInitiator === 'action'}",
+          "then": [
+            {
+              "name": "prompt",
+              "type": "keypress",
+              "message": "Press any key to exit"
+            },
+            {
+              "name": "stop-server"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

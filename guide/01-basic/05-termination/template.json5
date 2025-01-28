@@ -1,0 +1,19 @@
+{
+  "title": "Execution termination",
+  "description": "Learn how to stop an action when a requirement is not met.",
+  "actions": [
+    /*
+        You can abort an action when a required condition is not met.
+        For example, if a necessary file is missing or a prerequisite check fails.
+        This prevents further execution and provides guidance to the user.
+     */
+    {
+      "name": "fail",
+      "title": "Action aborted",
+      "message": "Execution was stopped due to an unmet requirement.",
+      "suggestions": [
+        "Check the prerequisites and try again."
+      ]
+    }
+  ]
+}

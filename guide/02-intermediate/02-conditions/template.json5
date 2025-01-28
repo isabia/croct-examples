@@ -1,0 +1,27 @@
+{
+  "title": "Conditions",
+  "description": "Learn how to run actions conditionally.",
+  "options": {
+    "value": {
+      "type": "number",
+      "description": "A number to check if it is even or odd.",
+      "required": true
+    }
+  },
+  "actions": [
+    {
+      "name": "test",
+      "condition": "${options.value % 2 === 0}", // Test if the number is divisible by 2
+      "then": {
+        "name": "print",
+        "semantic": "success",
+        "message": "${options.value} is even"
+      },
+      "else": {
+        "name": "print",
+        "semantic": "success",
+        "message": "${options.value} is odd"
+      }
+    }
+  ]
+}

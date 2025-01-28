@@ -1,0 +1,53 @@
+{
+  "title": "Resource creation",
+  "description": "Learn how to create resources in a workspace.",
+  "actions": [
+    /*
+      Resources represent entities in your workspace, such as audiences, components, and experiments.
+      This action ensures resources are created only if they do not already exist and handles issues gracefully.
+
+      Duplicate prevention:
+      - Audiences: Considered the same if they have identical slugs and criteria.
+      - Components: Considered the same if they share the same slug and schema.
+      - Experiences & Experiments: Considered the same if they share audiences, slots, configuration,
+        and at least one similar content/variant.
+
+      Automatic Adjustments:
+      - Unavailable locales: Content is mapped to the default locale.
+      - Audience limits: Only the first audience is retained if the limit is exceeded.
+      - Unsupported features: Features like cross-device tracking are disabled if unavailable.
+
+      Conflict Resolution:
+      - If a slug is already taken, the user is prompted to choose a new one.
+
+      Note: This action also triggers the initialization flow if the project is not set up.
+    */
+    {
+      "name": "create-resource",
+      "resources": {
+        "audiences": {
+          // Define an audience using a unique slug
+          "returning-users": {
+            "name": "Returning users",
+            "criteria": "user is returning"
+          }
+        }
+      },
+      "result": {
+        "audiences": {
+          /*
+            Store the final slug in a variable.
+            If a conflict occurs, the slug may be different from the one provided.
+          */
+          "returning-users": "audienceSlug"
+        }
+      }
+    },
+    // Display a success message with the final audience slug
+    {
+      "name": "print",
+      "semantic": "success",
+      "message": "The audience `${this.audienceSlug}` has been successfully created!"
+    }
+  ]
+}

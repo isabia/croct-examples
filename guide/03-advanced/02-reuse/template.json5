@@ -1,0 +1,22 @@
+{
+  "title": "Template reuse",
+  "description": "Learn how to reuse templates.",
+  "actions": [
+    /*
+        Templates can be imported and reused in other templates to avoid duplication.
+        You can import a template from another template passing variables to it as options,
+        much like a function with arguments.
+
+        The template can be relative to the current template, an absolute path, or even a URL.
+
+        In this example, the template is imported from another example, and receives a name option.
+    */
+    {
+      "name": "import",
+      "template": "../../02-intermediate/01-options/template.json5",
+      "options": {
+        "name": "Alice"
+      }
+    },
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "title": "Inputs",
+  "description": "Example of how to interact with the user.",
+  "actions": [
+    {
+      "name": "prompt",
+      "type": "text",
+      "message": "What is your name?",
+      "required": true, // Ensures the user provides a non-empty answer
+      "result": "answer" // Stores the user's answer in the `answer` variable
+    },
+    {
+      "name": "prompt",
+      "type": "confirmation",
+      "message": "Is your first time here?",
+      "result": "beginner"
+    },
+    {
+      "name": "prompt",
+      "type": "choice",
+      "message": "What is your favorite language?",
+      "options": ["JavaScript", "Python", "Ruby", "Java"],
+      "result": "language"
+    },
+    {
+      "name": "prompt",
+      "type": "multi-choice",
+      "message": "What is your tech stack?",
+      "options": ["React", "Vue", "Angular"],
+      "min": 2, // Requires the user to select at least 2 options
+      "result": "stack"
+    },
+    {
+      "name": "print",
+      "semantic": "success",
+      "message": "Hello, ${this.answer}!"
+    },
+    {
+      "name": "print",
+      "semantic": "info",
+      "message": "You are a ${this.beginner ? 'beginner' : 'returning'} user."
+    },
+    {
+      "name": "print",
+      "semantic": "info",
+      "message": "Your favorite language is ${this.language}."
+    },
+    {
+      "name": "print",
+      "semantic": "info",
+      "message": "Your tech stack is ${this.stack.join(', ')}."
+    }
+  ]
+}
