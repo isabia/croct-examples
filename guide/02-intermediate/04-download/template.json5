@@ -13,20 +13,20 @@
 
         GitHub repository URLs can be specified in two formats:
          - Web interface URL: https://github.com/<username>/<repo>/<blob|tree>/<ref>/path/to/file-or-folder
-         - Short GitHub URL: github:///<username>/<repo>/path/to/file-or-folder
+         - Short GitHub URL: github:/<username>/<repo>/path/to/file-or-folder
      */
 
     // Download a specific file from a GitHub repository
     {
       "name": "download",
-      "source": "github:///croct-tech/plug-next/LICENSE",
+      "source": "github:/croct-tech/plug-next/LICENSE",
       "destination": "./" // Saves the file in the project root
     },
 
     // Download files with a specific extension from a GitHub repository
     {
       "name": "download",
-      "source": "github:///croct-tech/plug-next",
+      "source": "github:/croct-tech/plug-next",
       "filter": "*.md", // You can use glob patterns to filter files
       "destination": "./" // Saves the file in the project root
     },
