@@ -1,0 +1,37 @@
+{
+  "title": "Project update",
+  "description": "Learn how to update the project to reflect changes in your workspace.",
+  "actions": [
+    /*
+      Often times, you may need to update your project to reflect changes other actions have made.
+      For example, you may want to add to the local project a component or slot just created in the workspace.
+      You can do this by using the `add-slot` and `add-component` actions.
+    */
+    {
+      "name": "create-resource",
+      "resources": {
+        "components": {
+          "button": "${ import('button.json') }"
+        },
+        "slots": {
+          "cta": "${ import('button-content.en.json') }"
+        }
+      },
+      "result": {
+        "slots": {
+          "cta": "buttonSlotSlug"
+        }
+      }
+    },
+    {
+      "name": "add-slot",
+      "slots": ["${this.buttonSlotSlug}"],
+      "example": true // Weather to generate an example or not
+    },
+    {
+      "name": "print",
+      "semantic": "success",
+      "message": "The slot `${this.buttonSlotSlug}` has been successfully added to the project!"
+    }
+  ]
+}

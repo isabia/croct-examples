@@ -20,6 +20,9 @@
       Conflict Resolution:
       - If a slug is already taken, the user is prompted to choose a new one.
 
+      Because of the duplicate prevention mechanism, the action is idempotent, meaning it can be run multiple times
+      without side effects.
+
       Note: This action also triggers the initialization flow if the project is not set up.
     */
     {

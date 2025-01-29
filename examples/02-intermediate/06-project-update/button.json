@@ -1,0 +1,14 @@
+{
+  "name": "Button",
+  "description": "A simple button component.",
+  "definition": {
+    "type": "structure",
+    "attributes": {
+      "label": {
+        "type": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

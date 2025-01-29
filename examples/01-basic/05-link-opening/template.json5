@@ -1,0 +1,10 @@
+{
+  "title": "Link opening",
+  "description": "Learn how to open a link in the user's browser.",
+  "actions": [
+    {
+      "name": "open-link",
+        "url": "https://croct.com"
+    },
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "title": "Running a Local Server",
+  "description": "Learn how to automatically start a local server and open it in your browser.",
+  "actions": [
+    /*
+      For some templates that provides working examples, it's useful to open the example in the browser.
+      This example shows how to detect a supported development environment (e.g., Next.js) and, if unavailable,
+      shows a warning. Otherwise, it prompts to open your local server for a live preview.
+    */
+    {
+      "name": "test",
+      "condition": "${project.platform !== 'next'}",
+      "then": [
+        {
+          "name": "print",
+          "semantic": "warning",
+          "message": "Run this example in a Next.js or React project for a full experience."
+        }
+      ]
+    },
+
+    // Prompt the user for confirmation before attempting to open the local server
+    {
+      "name": "prompt",
+      "type": "confirmation",
+      "message": "Open your local server?",
+      "default": false,
+      "result": "openExample"
+    },
+
+    // Attempt to start and open the local server, with a fallback help message if it fails
+    {
+      "name": "try",
+      "help": {
+        "message": "The server could not be started.",
+        "suggestions": [
+          "Try running the server manually."
+        ]
+      },
+      "action": {
+        "name": "test",
+        "condition": "${this.openExample}",
+        "then": [
+          {
+            "name": "start-server",
+            "result": {
+              // 'url' holds the server address
+              "url": "serverUrl",
+              // 'owned' indicates if the CLI process controls the server
+              "owned": "isServerOwned"
+            }
+          },
+          {
+            "name": "open-link",
+            "url": "${this.serverUrl}"
+          },
+          {
+            "name": "print",
+            "semantic": "info",
+            "message": "The server is running at ${this.serverUrl}"
+          },
+          {
+            "name": "test",
+            "condition": "${this.isServerOwned}",
+            "then": [
+              {
+                "name": "prompt",
+                "type": "keypress",
+                "message": "Press any key to stop the server."
+              },
+              {
+                "name": "stop-server"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

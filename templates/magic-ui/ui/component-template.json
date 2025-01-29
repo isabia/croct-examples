@@ -126,7 +126,7 @@
           "name": "start-server",
           "result": {
             "url": "serverUrl",
-            "initiator": "serverInitiator"
+            "owned": "isServerOwned"
           }
         },
         {
@@ -140,7 +140,7 @@
         },
         {
           "name": "test",
-          "condition": "${this.serverInitiator === 'action'}",
+          "condition": "${this.isServerOwned}",
           "then": [
             {
               "name": "prompt",
