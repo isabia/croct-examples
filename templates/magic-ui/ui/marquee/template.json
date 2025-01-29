@@ -4,7 +4,7 @@
   "actions": [
     {
       "name": "import",
-      "template": "../../recipes/component.json",
+      "template": "../component-template.json",
       "options": {
         "id": "marquee",
         "url": "https://magicui.design/r/marquee",
