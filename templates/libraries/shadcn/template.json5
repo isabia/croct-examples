@@ -1,0 +1,29 @@
+{
+  "title": "shadcn template",
+  "description": "A template for installing shadcn components.",
+  "options": {
+    "components": {
+      "type": "array",
+      "description": "The components to install.",
+      "required": true
+    }
+  },
+  "actions": [
+    {
+      "name": "execute-package",
+      "package": "shadcn",
+      "arguments": "${['add', ...options.components]}",
+      "interactions": [
+        {
+          "when": "How would you like to proceed? › - Use arrow-keys",
+          "once": true,
+          "then": ["[enter]"]
+        },
+        {
+          "when": "Would you like to overwrite? › (y/N)",
+          "then": ["y"]
+        }
+      ]
+    }
+  ]
+}

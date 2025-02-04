@@ -1,4 +1,4 @@
-import Marquee from "@/components/ui/marquee";
+import {Marquee} from "@/components/ui/marquee";
 import {fetchContent} from "@croct/plug-next/server";
 import defaultContent from '@croct/content/slot/en/%slotId%@1.json';
 

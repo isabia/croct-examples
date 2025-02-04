@@ -1,0 +1,246 @@
+{
+  "title": "Component template",
+  "description": "A reusable template for importing components.",
+  "options": {
+    "id": {
+      "type": "string",
+      "description": "The component ID.",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "description": "The URL of the component.",
+      "required": true
+    },
+    "component": {
+      "type": "string",
+      "description": "The component name.",
+      "required": true
+    },
+    "slotRef": {
+      "type": "string",
+      "description": "The variable name that holds the slot slug.",
+      "required": true
+    },
+    "action": {
+      "type": "object",
+      "description": "Additional actions to execute.",
+      "required": false
+    }
+  },
+  "actions": [
+    {
+      "name": "test",
+      "condition": "${project.platform === 'unknown'}",
+        "then": [
+          {
+            "name": "print",
+            "semantic": "info",
+            "message": "No project found in the current directory.",
+          },
+          {
+            "name": "prompt",
+            "type": "confirmation",
+            "message": "Do you want to create a new project and continue?",
+            "result": "createProject"
+          },
+          {
+            "name": "define",
+            "variables": {
+              "projectName": "${options.id}-example"
+            }
+          },
+          {
+            "name": "locate-file",
+            "path": "${this.projectName}*",
+            "result": {
+              "paths": "projectPaths"
+            }
+          },
+          {
+            "name": "define",
+            "variables": {
+              "projectName": "${options.id}-example${this.projectPaths.length === 0 ? '' : this.projectPaths.length}"
+            }
+          },
+          {
+            "name": "test",
+            "condition": "${this.createProject}",
+            "then": [
+              {
+                "name": "import",
+                "template": "../../../projects/next",
+                "options": {
+                  "name": "${this.projectName}",
+                }
+              },
+              {
+                "name": "change-directory",
+                "path": "${this.projectName}"
+              }
+            ],
+            "else": {
+              "name": "fail",
+              "title": "Project not found",
+              "message": "Unable to locate a project in the current directory.",
+              "suggestions": [
+                "Navigate to the project directory and try again."
+              ]
+            }
+          }
+        ]
+    },
+    {
+      "name": "define",
+      "variables": {
+        "locate": {
+          "name": "locate-file",
+          "path": "**/${options.id}.{jsx,tsx}",
+          "max": 1,
+          "matcher": {
+            "pattern": "export function ${options.component}"
+          },
+          "result": {
+            "paths": "componentPaths",
+            "extensions": "componentExtensions"
+          }
+        }
+      }
+    },
+    '${this.locate}',
+    {
+      "name": "test",
+      "condition": "${this.componentPaths.length === 0}",
+      "then": [
+        {
+          "name": "print",
+          "semantic": "warning",
+          "message": "Unable to locate the `<${options.component}>` component in the project.",
+        },
+        {
+          "name": "prompt",
+          "type": "confirmation",
+          "message": "Do you want to install it?",
+          "result": "installComponent"
+        },
+        {
+          "name": "test",
+          "condition": "${this.installComponent}",
+          "then": [
+            {
+              "name": "import",
+              "template": "../../shadcn",
+              "options": {
+                "components": ["${options.url}"]
+              }
+            },
+            '${this.locate}'
+          ],
+          "else": {
+            "name": "fail",
+            "title": "Component not found",
+            "message": "Unable to locate the `<${options.component}>` component.",
+            "suggestions": [
+              "Run the command `npx shadcn@latest add \"${options.url}\"` to add the component",
+              "Do not rename or refactor the component yet",
+              "Try again"
+            ]
+          }
+        }
+      ],
+    },
+    "${options.action}",
+    {
+      "name": "download",
+      "source": "${options.id}/${project.platform}/page.${this.componentExtensions[0]}",
+      "destination": "${project.path.example}/${options.id}",
+      "result": {
+        "destination": "examplePath"
+      }
+    },
+    {
+      "name": "resolve-import",
+      "target": "${this.componentPaths[0]}",
+      "source": "${project.path.example}",
+      "result": {
+        "importPath": "importPath"
+      }
+    },
+    {
+      "name": "replace-file-content",
+      "files": [
+        {
+          "path": "${this.examplePath}/page.${this.componentExtensions[0]}",
+          "replacements": [
+            {
+              "pattern": "(?<=from )\"@/components/ui/${options.id}\"",
+              "value": "\"${this.importPath}\""
+            },
+            {
+              "pattern": "%slotId%",
+              "value": "${this[options.slotRef]}"
+            },
+            {
+              "pattern": "%workspaceUrl%",
+              "value": "${project.workspace.url}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format-code",
+      "files": [
+        "${this.examplePath}/page.${this.componentExtensions[0]}"
+      ]
+    },
+    {
+      "name": "print",
+      "semantic": "success",
+      "message": "Component successfully imported at `${this.examplePath}`."
+    },
+    {
+      "name": "prompt",
+      "type": "confirmation",
+      "message": "Open the example in the browser?",
+      "default": false,
+      "result": "openExample"
+    },
+    {
+      "name": "test",
+      "condition": "${this.openExample}",
+      "then": [
+        {
+          "name": "start-server",
+          "result": {
+            "url": "serverUrl",
+            "owned": "isServerOwned"
+          }
+        },
+        {
+          "name": "open-link",
+          "url": "${this.serverUrl}${options.id}"
+        },
+        {
+          "name": "print",
+          "semantic": "info",
+          "message": "The example is available at `${this.serverUrl}${options.id}`."
+        },
+        {
+          "name": "test",
+          "condition": "${this.isServerOwned}",
+          "then": [
+            {
+              "name": "prompt",
+              "type": "keypress",
+              "message": "Press any key to exit"
+            },
+            {
+              "name": "stop-server"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

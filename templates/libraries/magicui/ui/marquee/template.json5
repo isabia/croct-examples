@@ -4,7 +4,7 @@
   "actions": [
     {
       "name": "import",
-      "template": "../component-template.json",
+      "template": "../component-template.json5",
       "options": {
         "id": "marquee",
         "url": "https://magicui.design/r/marquee",
@@ -17,14 +17,14 @@
               "name": "create-resource",
               "resources": {
                 "components": {
-                  "magic-ui-marquee-reviews": "${ import('marquee-component.json') }"
+                  "magic-ui-marquee-reviews": "${import('marquee-component.json')}"
                 },
                 "slots": {
                   "magic-ui-user-reviews": {
                     "name": "Magic UI - User reviews",
                     "component": "magic-ui-marquee-reviews",
                     "content": {
-                      "en": "${ import('marquee-content.en.json') }"
+                      "en": "${import('marquee-content.en.json')}"
                     }
                   }
                 }
