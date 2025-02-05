@@ -7,11 +7,6 @@
       "description": "The component ID.",
       "required": true
     },
-    "url": {
-      "type": "string",
-      "description": "The URL of the component.",
-      "required": true
-    },
     "component": {
       "type": "string",
       "description": "The component name.",
@@ -29,6 +24,12 @@
     }
   },
   "actions": [
+    {
+      "name": "define",
+      "variables": {
+        "registryUrl": "https://magicui.design/r/${options.id}.json"
+      }
+    },
     {
       "name": "test",
       "condition": "${project.platform === 'unknown'}",
@@ -69,7 +70,7 @@
             "then": [
               {
                 "name": "import",
-                "template": "../../../projects/next",
+                "template": "../../shadcn/project",
                 "options": {
                   "name": "${this.projectName}",
                 }
@@ -129,9 +130,9 @@
           "then": [
             {
               "name": "import",
-              "template": "../../shadcn",
+              "template": "../../shadcn/component",
               "options": {
-                "components": ["${options.url}"]
+                "components": ["${this.registryUrl}"]
               }
             },
             '${this.locate}'
@@ -141,7 +142,7 @@
             "title": "Component not found",
             "message": "Unable to locate the `<${options.component}>` component.",
             "suggestions": [
-              "Run the command `npx shadcn@latest add \"${options.url}\"` to add the component",
+              "Run the command `npx shadcn@latest add \"${this.registryUrl}\"` to add the component",
               "Do not rename or refactor the component yet",
               "Try again"
             ]

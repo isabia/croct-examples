@@ -15,12 +15,17 @@
       "arguments": "${['add', ...options.components]}",
       "interactions": [
         {
-          "when": "How would you like to proceed? › - Use arrow-keys",
+          "when": "You need to create a components.json file to add components. Proceed?",
           "once": true,
           "then": ["[enter]"]
         },
         {
-          "when": "Would you like to overwrite? › (y/N)",
+          "when": "How would you like to proceed?",
+          "once": true,
+          "then": ["[enter]"]
+        },
+        {
+          "when": "Would you like to overwrite?",
           "then": ["y"]
         }
       ]
