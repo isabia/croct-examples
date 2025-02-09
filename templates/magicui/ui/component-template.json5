@@ -49,19 +49,45 @@
           {
             "name": "define",
             "variables": {
+              "projectNumber": 0,
               "projectName": "${options.id}-example"
             }
           },
           {
             "name": "locate-file",
-            "path": "${this.projectName}*",
+            "path": "${this.projectName}",
+            "max": 1,
             "result": "projectPaths"
           },
           {
-            "name": "define",
-            "variables": {
-              "projectName": "${this.projectName}${this.projectPaths.length > 0 ? '-' + this.projectPaths.length : ''}"
-            }
+            "name": "repeat",
+            "condition": "${this.projectPaths.length !== 0}",
+            "actions": [
+              {
+                "name": "define",
+                "variables": {
+                  "projectNumber": "${this.projectNumber + 1}"
+                }
+              },
+              {
+                "name": "locate-file",
+                "path": "${this.projectName}-${this.projectNumber}",
+                "max": 1,
+                "result": "projectPaths"
+              }
+            ]
+          },
+          {
+            "name": "test",
+            "condition": "${this.projectNumber > 0}",
+            "then": [
+              {
+                "name": "define",
+                "variables": {
+                  "projectName": "${this.projectName}-${this.projectNumber}"
+                }
+              }
+            ]
           },
           {
             "name": "test",
