@@ -42,7 +42,8 @@
           {
             "name": "prompt",
             "type": "confirmation",
-            "message": "Do you want to create a new project and continue?",
+            "message": "Start a new project?",
+            "default": true,
             "result": "createProject"
           },
           {
@@ -54,14 +55,12 @@
           {
             "name": "locate-file",
             "path": "${this.projectName}*",
-            "result": {
-              "paths": "projectPaths"
-            }
+            "result": "projectPaths"
           },
           {
             "name": "define",
             "variables": {
-              "projectName": "${options.id}-example${this.projectPaths.length === 0 ? '' : this.projectPaths.length}"
+              "projectName": "${this.projectName}${this.projectPaths.length > 0 ? '-' + this.projectPaths.length : ''}"
             }
           },
           {
@@ -101,10 +100,7 @@
           "matcher": {
             "pattern": "export function ${options.component}"
           },
-          "result": {
-            "paths": "componentPaths",
-            "extensions": "componentExtensions"
-          }
+          "result": "componentPaths"
         }
       }
     },
@@ -114,46 +110,19 @@
       "condition": "${this.componentPaths.length === 0}",
       "then": [
         {
-          "name": "print",
-          "semantic": "warning",
-          "message": "Unable to locate the `<${options.component}>` component in the project.",
-        },
-        {
-          "name": "prompt",
-          "type": "confirmation",
-          "message": "Do you want to install it?",
-          "result": "installComponent"
-        },
-        {
-          "name": "test",
-          "condition": "${this.installComponent}",
-          "then": [
-            {
-              "name": "import",
-              "template": "../../shadcn/component",
-              "options": {
-                "components": ["${this.registryUrl}"]
-              }
-            },
-            '${this.locate}'
-          ],
-          "else": {
-            "name": "fail",
-            "title": "Component not found",
-            "message": "Unable to locate the `<${options.component}>` component.",
-            "suggestions": [
-              "Run the command `npx shadcn@latest add \"${this.registryUrl}\"` to add the component",
-              "Do not rename or refactor the component yet",
-              "Try again"
-            ]
+          "name": "import",
+          "template": "../../shadcn/component",
+          "options": {
+            "components": ["${this.registryUrl}"]
           }
-        }
+        },
+        '${this.locate}'
       ],
     },
     "${options.action}",
     {
       "name": "download",
-      "source": "${options.id}/${project.platform}/page.${this.componentExtensions[0]}",
+      "source": "${options.id}/${project.platform}/page.${ext(this.componentPaths[0])}",
       "destination": "${project.path.example}/${options.id}",
       "result": {
         "destination": "examplePath"
@@ -171,7 +140,7 @@
       "name": "replace-file-content",
       "files": [
         {
-          "path": "${this.examplePath}/page.${this.componentExtensions[0]}",
+          "path": "${this.examplePath}/page.${ext(this.componentPaths[0])}",
           "replacements": [
             {
               "pattern": "(?<=from )\"@/components/ui/${options.id}\"",
@@ -192,7 +161,7 @@
     {
       "name": "format-code",
       "files": [
-        "${this.examplePath}/page.${this.componentExtensions[0]}"
+        "${this.examplePath}/page.${ext(this.componentPaths[0])}"
       ]
     },
     {
