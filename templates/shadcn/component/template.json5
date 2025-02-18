@@ -10,6 +10,29 @@
   },
   "actions": [
     {
+      "name": "locate-file",
+      "path": "tailwind.config.*",
+      "limit": 1,
+      "maxDepth": 3,
+      "result": "isTailwindConfigured"
+    },
+    {
+      "name": "test",
+      "condition": "${this.isTailwindConfigured.length === 0}",
+      "then": [
+        {
+          "name": "fail",
+          "message": "Tailwind CSS is not installed.",
+          "links": [
+            {
+                "label": "Install Tailwind CSS",
+                "url": "https://tailwindcss.com/docs/installation"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "execute-package",
       "package": "shadcn",
       "arguments": "${['add', ...options.components]}",
@@ -21,6 +44,21 @@
         },
         {
           "when": "How would you like to proceed?",
+          "once": true,
+          "then": ["[enter]"]
+        },
+        {
+          "when": "Which style would you like to use?",
+          "once": true,
+          "then": ["[enter]"]
+        },
+        {
+          "when": "Which color would you like to use as the base color?",
+          "once": true,
+          "then": ["[enter]"]
+        },
+        {
+          "when": "Would you like to use CSS variables for theming?",
           "once": true,
           "then": ["[enter]"]
         },

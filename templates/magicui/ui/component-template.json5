@@ -33,88 +33,89 @@
     {
       "name": "test",
       "condition": "${project.platform === 'unknown'}",
-        "then": [
-          {
-            "name": "print",
-            "semantic": "info",
-            "message": "No project found in the current directory.",
-          },
-          {
-            "name": "prompt",
-            "type": "confirmation",
-            "message": "Start a new project?",
-            "default": true,
-            "result": "createProject"
-          },
-          {
-            "name": "define",
-            "variables": {
-              "projectNumber": 0,
-              "projectName": "${options.id}-example"
-            }
-          },
-          {
-            "name": "locate-file",
-            "path": "${this.projectName}",
-            "max": 1,
-            "result": "projectPaths"
-          },
-          {
-            "name": "repeat",
-            "condition": "${this.projectPaths.length !== 0}",
-            "actions": [
-              {
-                "name": "define",
-                "variables": {
-                  "projectNumber": "${this.projectNumber + 1}"
-                }
-              },
-              {
-                "name": "locate-file",
-                "path": "${this.projectName}-${this.projectNumber}",
-                "max": 1,
-                "result": "projectPaths"
-              }
-            ]
-          },
-          {
-            "name": "test",
-            "condition": "${this.projectNumber > 0}",
-            "then": [
-              {
-                "name": "define",
-                "variables": {
-                  "projectName": "${this.projectName}-${this.projectNumber}"
-                }
-              }
-            ]
-          },
-          {
-            "name": "test",
-            "condition": "${this.createProject}",
-            "then": [
-              {
-                "name": "import",
-                "template": "../../shadcn/project",
-                "options": {
-                  "name": "${this.projectName}",
-                }
-              },
-              {
-                "name": "change-directory",
-                "path": "${this.projectName}"
-              }
-            ],
-            "else": {
-              "name": "fail",
-              "title": "Project not found",
-              "message": "Unable to locate a project in the current directory.",
-              "suggestions": [
-                "Navigate to the project directory and try again."
-              ]
-            }
+      "then": [
+        {
+          "name": "print",
+          "semantic": "info",
+          "message": "No project found in the current directory",
+        },
+        {
+          "name": "prompt",
+          "type": "confirmation",
+          "message": "Start a new project?",
+          "default": true,
+          "result": "createProject"
+        },
+        {
+          "name": "define",
+          "variables": {
+            "projectNumber": 0,
+            "projectName": "${options.id}-example"
           }
-        ]
+        },
+        {
+          "name": "locate-file",
+          "path": "${this.projectName}",
+          "limit": 1,
+          "result": "projectPaths"
+        },
+        {
+          "name": "repeat",
+          "condition": "${this.projectPaths.length !== 0}",
+          "actions": [
+            {
+              "name": "define",
+              "variables": {
+                "projectNumber": "${this.projectNumber + 1}"
+              }
+            },
+            {
+              "name": "locate-file",
+              "path": "${this.projectName}-${this.projectNumber}",
+              "limit": 1,
+              "depth": 1,
+              "result": "projectPaths"
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "condition": "${this.projectNumber > 0}",
+          "then": [
+            {
+              "name": "define",
+              "variables": {
+                "projectName": "${this.projectName}-${this.projectNumber}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "condition": "${this.createProject}",
+          "then": [
+            {
+              "name": "import",
+              "template": "../../shadcn/project",
+              "options": {
+                "name": "${this.projectName}",
+              }
+            },
+            {
+              "name": "change-directory",
+              "path": "${this.projectName}"
+            }
+          ],
+          "else": {
+            "name": "fail",
+            "title": "Project not found",
+            "message": "Unable to locate a project in the current directory.",
+            "suggestions": [
+              "Navigate to the project directory and try again."
+            ]
+          }
+        }
+      ],
     },
     {
       "name": "define",
@@ -122,7 +123,7 @@
         "locate": {
           "name": "locate-file",
           "path": "**/${options.id}.{jsx,tsx}",
-          "max": 1,
+          "limit": 1,
           "matcher": {
             "pattern": "export function ${options.component}"
           },
@@ -139,7 +140,9 @@
           "name": "import",
           "template": "../../shadcn/component",
           "options": {
-            "components": ["${this.registryUrl}"]
+            "components": [
+              "${this.registryUrl}"
+            ]
           }
         },
         '${this.locate}'
@@ -147,8 +150,14 @@
     },
     "${options.action}",
     {
+      "name": "define",
+      "variables": {
+        "exampleFile": "${project.platform === 'nextjs' ? 'page' : 'example'}.${ext(this.componentPaths[0])}"
+      }
+    },
+    {
       "name": "download",
-      "source": "${options.id}/${project.platform}/page.${ext(this.componentPaths[0])}",
+      "source": "${options.id}/${project.platform}/${this.exampleFile}",
       "destination": "${project.path.example}/${options.id}",
       "result": {
         "destination": "examplePath"
@@ -166,7 +175,7 @@
       "name": "replace-file-content",
       "files": [
         {
-          "path": "${this.examplePath}/page.${ext(this.componentPaths[0])}",
+          "path": "${this.examplePath}/${this.exampleFile}",
           "replacements": [
             {
               "pattern": "(?<=from )\"@/components/ui/${options.id}\"",
@@ -196,47 +205,53 @@
       "message": "Component successfully imported at `${this.examplePath}`."
     },
     {
-      "name": "prompt",
-      "type": "confirmation",
-      "message": "Open the example in the browser?",
-      "default": false,
-      "result": "openExample"
-    },
-    {
       "name": "test",
-      "condition": "${this.openExample}",
+      "condition": "${project.server !== null && project.platform === 'nextjs'}",
       "then": [
         {
-          "name": "start-server",
-          "result": {
-            "url": "serverUrl",
-            "owned": "isServerOwned"
-          }
-        },
-        {
-          "name": "open-link",
-          "url": "${this.serverUrl}${options.id}"
-        },
-        {
-          "name": "print",
-          "semantic": "info",
-          "message": "The example is available at `${this.serverUrl}${options.id}`."
+          "name": "prompt",
+          "type": "confirmation",
+          "message": "Open the example in the browser?",
+          "default": false,
+          "result": "openExample"
         },
         {
           "name": "test",
-          "condition": "${this.isServerOwned}",
+          "condition": "${this.openExample}",
           "then": [
             {
-              "name": "prompt",
-              "type": "keypress",
-              "message": "Press any key to exit"
+              "name": "start-server",
+              "result": {
+                "url": "serverUrl",
+                "owned": "isServerOwned"
+              }
             },
             {
-              "name": "stop-server"
+              "name": "open-link",
+              "url": "${this.serverUrl}${options.id}"
+            },
+            {
+              "name": "print",
+              "semantic": "info",
+              "message": "The example is available at `${this.serverUrl}${options.id}`."
+            },
+            {
+              "name": "test",
+              "condition": "${this.isServerOwned}",
+              "then": [
+                {
+                  "name": "prompt",
+                  "type": "keypress",
+                  "message": "Press any key to exit"
+                },
+                {
+                  "name": "stop-server"
+                }
+              ]
             }
           ]
         }
       ]
-    }
+    },
   ]
 }

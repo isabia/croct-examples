@@ -1,9 +1,18 @@
+import {Suspense} from "react";
 import {Marquee} from "@/components/ui/marquee";
-import {fetchContent} from "@croct/plug-next/server";
+import {useContent} from "@croct/plug-react";
 import defaultContent from '@croct/content/slot/en/%slotId%@1.json';
 
-export default async function Home() {
-    const {content: {reviews, ...props}} = await fetchContent('%slotId%', {
+export default function Example() {
+    return (
+        <Suspense fallback={<div>✨ Loading...</div>}>
+            <MarqueeCards />
+        </Suspense>
+    );
+}
+
+const MarqueeCards = () => {
+    const {reviews, ...props} = useContent('%slotId%@1', {
         fallback: defaultContent
     });
 
