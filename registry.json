@@ -1,6 +1,6 @@
 [
   {
-    "pattern": "^croct:(.+?)$",
+    "pattern": "^croct:/*(.+?)$",
     "destination": "github:/marcospassos/croct-examples/templates/$1"
   },
   {
