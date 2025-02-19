@@ -12,7 +12,7 @@
       "description": "The component name.",
       "required": true
     },
-    "slotRef": {
+    "slotReference": {
       "type": "string",
       "description": "The variable name that holds the slot slug.",
       "required": true
@@ -47,56 +47,26 @@
           "result": "createProject"
         },
         {
-          "name": "define",
-          "variables": {
-            "projectNumber": 0,
-            "projectName": "${options.id}-example"
-          }
-        },
-        {
-          "name": "locate-file",
-          "path": "${this.projectName}",
-          "limit": 1,
-          "result": "projectPaths"
-        },
-        {
-          "name": "repeat",
-          "condition": "${this.projectPaths.length !== 0}",
-          "actions": [
-            {
-              "name": "define",
-              "variables": {
-                "projectNumber": "${this.projectNumber + 1}"
-              }
-            },
-            {
-              "name": "locate-file",
-              "path": "${this.projectName}-${this.projectNumber}",
-              "limit": 1,
-              "depth": 1,
-              "result": "projectPaths"
-            }
-          ]
-        },
-        {
-          "name": "test",
-          "condition": "${this.projectNumber > 0}",
-          "then": [
-            {
-              "name": "define",
-              "variables": {
-                "projectName": "${this.projectName}-${this.projectNumber}"
-              }
-            }
-          ]
-        },
-        {
           "name": "test",
           "condition": "${this.createProject}",
           "then": [
             {
+              "name": "define",
+              "variables": {
+                "projectName": "${options.id}-example"
+              }
+            },
+            {
               "name": "import",
-              "template": "../../shadcn/project",
+              "template": "../../../croct/utils/filename-generator",
+              "share": ["projectName"],
+              "options": {
+                "reference": "projectName",
+              }
+            },
+            {
+              "name": "import",
+              "template": "../../../shadcn/project",
               "options": {
                 "name": "${this.projectName}",
               }
@@ -138,7 +108,7 @@
       "then": [
         {
           "name": "import",
-          "template": "../../shadcn/component",
+          "template": "../../../shadcn/ui/component",
           "options": {
             "components": [
               "${this.registryUrl}"
@@ -157,7 +127,7 @@
     },
     {
       "name": "download",
-      "source": "${options.id}/${project.platform}/${this.exampleFile}",
+      "source": "../${options.id}/code/${project.platform}/${this.exampleFile}",
       "destination": "${project.path.example}/${options.id}",
       "result": {
         "destination": "examplePath"
@@ -183,7 +153,7 @@
             },
             {
               "pattern": "%slotId%",
-              "value": "${this[options.slotRef]}"
+              "value": "${this[options.slotReference]}"
             },
             {
               "pattern": "%workspaceUrl%",

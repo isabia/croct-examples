@@ -1,11 +1,8 @@
 import {Marquee} from "@/components/ui/marquee";
 import {fetchContent} from "@croct/plug-next/server";
-import defaultContent from '@croct/content/slot/en/%slotId%@1.json';
 
 export default async function Home() {
-    const {content: {reviews, ...props}} = await fetchContent('%slotId%@1', {
-        fallback: defaultContent
-    });
+    const {content: {reviews, ...props}} = await fetchContent('%slotId%@1');
 
     return (
         <>

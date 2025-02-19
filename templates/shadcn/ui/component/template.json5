@@ -13,7 +13,7 @@
       "name": "locate-file",
       "path": "tailwind.config.*",
       "limit": 1,
-      "maxDepth": 3,
+      "depth": 3,
       "result": "isTailwindConfigured"
     },
     {
