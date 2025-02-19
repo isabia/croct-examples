@@ -58,7 +58,7 @@
             },
             {
               "name": "import",
-              "template": "../../../croct/utils/filename-generator",
+              "template": "croct:/croct/utils/filename-generator",
               "share": ["projectName"],
               "options": {
                 "reference": "projectName",
@@ -66,7 +66,7 @@
             },
             {
               "name": "import",
-              "template": "../../../shadcn/project",
+              "template": "croct:/shadcn/project",
               "options": {
                 "name": "${this.projectName}",
               }
@@ -108,7 +108,7 @@
       "then": [
         {
           "name": "import",
-          "template": "../../../shadcn/ui/component",
+          "template": "croct:/shadcn/ui/component",
           "options": {
             "components": [
               "${this.registryUrl}"
