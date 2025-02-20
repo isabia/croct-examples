@@ -96,6 +96,7 @@
           "name": "locate-file",
           "path": "**/${options.id}.{jsx,tsx}",
           "limit": 1,
+          "depth": 10,
           "matcher": {
             "pattern": "export function ${options.component}"
           },
