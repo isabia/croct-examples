@@ -59,7 +59,9 @@
             {
               "name": "import",
               "template": "croct:/croct/utils/filename-generator",
-              "share": ["projectName"],
+              "share": [
+                "projectName"
+              ],
               "options": {
                 "reference": "projectName",
               }
@@ -115,7 +117,19 @@
             ]
           }
         },
-        '${this.locate}'
+        '${this.locate}',
+        {
+          "name": "test",
+          "condition": "${this.componentPaths.length === 0}",
+          "then": {
+            "name": "fail",
+            "title": "Component not found",
+            "message": "Unable to locate the component `${options.component}`.",
+            "suggestions": [
+              "Check the name of the file or the component.",
+            ]
+          }
+        }
       ],
     },
     "${options.action}",
