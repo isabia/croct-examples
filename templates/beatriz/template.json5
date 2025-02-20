@@ -1,10 +1,10 @@
 {
-  "title": "Magic UI Hero video dialog",
+  "title": "Magic UI - Hero video dialog",
   "description": "Import the Marquee example into the project.",
   "actions": [
     {
       "name": "import",
-      "template": "../component",
+      "template": "croct:/magicui/ui/component",
       "options": {
         "id": "hero-video-dialog",
         "component": "Hero video dialog",
