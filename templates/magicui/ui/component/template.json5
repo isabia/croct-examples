@@ -98,7 +98,7 @@
           "limit": 1,
           "depth": 10,
           "matcher": {
-            "pattern": "export function ${options.component}"
+            "pattern": "function ${options.component}"
           },
           "result": "componentPaths"
         }
