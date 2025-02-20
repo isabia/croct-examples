@@ -7,7 +7,7 @@
       "template": "croct:/magicui/ui/component",
       "options": {
         "id": "hero-video-dialog",
-        "component": "Hero video dialog",
+        "component": "HeroVideoDialog",
         "slotReference": "slotSlug",
         "action": {
           "name": "run",
