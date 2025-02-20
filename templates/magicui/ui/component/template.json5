@@ -124,7 +124,7 @@
           "then": {
             "name": "fail",
             "title": "Component not found",
-            "message": "Unable to locate the component `${options.component}`.",
+            "message": "Unable to locate the file `${options.id}.{jsx,tsx}` with the component `${options.component}`.",
             "suggestions": [
               "Check the name of the file or the component.",
             ]
