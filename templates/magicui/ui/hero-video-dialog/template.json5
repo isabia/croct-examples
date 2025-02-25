@@ -1,0 +1,44 @@
+{
+  "title": "Magic UI - Hero video dialog",
+  "description": "Import the hero video dialog example into the project.",
+  "actions": [
+    {
+      "name": "import",
+      "template": "shadcn:/ui/component/install",
+      "options": {
+        "id": "hero-video-dialog",
+        "url": "https://magicui.design/docs/components/hero-video-dialog",
+        "component": "Hero Video Dialog",
+        "code": "templates/magicui/ui/hero-video-dialog",
+        "slotReference": "slotSlug",
+        "action": {
+          "name": "run",
+          "actions": [
+            {
+              "name": "create-resource",
+              "resources": {
+                "components": {
+                  "hero-video-dialog": "${import('./configuration/hero-video-dialog-component.json')}"
+                },
+                "slots": {
+                  "hero-video-dialog": {
+                    "name": "Hero video dialog",
+                    "component": "hero-video-dialog",
+                    "content": {
+                      "en": "${import('./configuration/hero-video-dialog-content.en.json')}"
+                    }
+                  }
+                }
+              },
+              "result": {
+                "slots": {
+                  "hero-video-dialog": "slotSlug"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
